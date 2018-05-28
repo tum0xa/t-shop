@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
+SECRET_KEY = 'j0f21(p%)tkuqm(95mra^)h15^pns)_m=ip1+(7)rg+j9v9_=i'
 
 DEBUG = True
 
@@ -34,6 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
+    'catalog',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -118,8 +122,9 @@ STATIC_URL = '/static/'
 
 if DEBUG == True:
     try:
-        import local_settings
+        import tshop.local_settings
     except Exception:
-        print("Could not find local settings")
+        print("Could not load local settings")
+
 else:
     pass
