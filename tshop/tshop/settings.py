@@ -55,7 +55,9 @@ ROOT_URLCONF = 'tshop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'templates/tshop/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
