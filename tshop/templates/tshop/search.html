@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load static %}
+<!-- Search -->
+<div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+    <div class="header_search">
+        <div class="header_search_content">
+            <div class="header_search_form_container">
+                <form action="/search/" class="header_search_form clearfix" method="get">
+
+                    <input type="search" required="required" class="header_search_input" placeholder={% trans "Search for products..." %}>
+                    <div class="custom_dropdown">
+                        <div class="custom_dropdown_list">
+                            <span class="custom_dropdown_placeholder clc">{% trans "All Categories" %}</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <ul class="custom_list clc">
+                                <li><a class="clc" href="#">{% trans "All Categories" %}</a></li>
+                                {% if catalog %}
+                                {% for category in catalog %}
+                                    <li><a class="clc" href="#">{% trans category.name %}</a></li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="submit" class="header_search_button trans_300" value="{% trans "Submit" %}"><img src="{% static "images/search.png" %}" alt=""></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
