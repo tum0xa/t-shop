@@ -80,19 +80,19 @@ $(document).ready(function()
 		//To pin main nav to the top of the page when it's reached
 		//uncomment the following
 
-		// var controller = new ScrollMagic.Controller(
-		// {
-		// 	globalSceneOptions:
-		// 	{
-		// 		triggerHook: 'onLeave'
-		// 	}
-		// });
+		 var controller = new ScrollMagic.Controller(
+		 {
+		 	globalSceneOptions:
+		 	{
+		 		triggerHook: 'onLeave'
+		 	}
+		 });
 
-		// var pin = new ScrollMagic.Scene(
-		// {
-		// 	triggerElement: '.main_nav'
-		// })
-		// .setPin('.main_nav').addTo(controller);
+		 var pin = new ScrollMagic.Scene(
+		 {
+		 	triggerElement: '.main_nav'
+		 })
+		 .setPin('.main_nav').addTo(controller);
 
 		if(window.innerWidth > 991 && menuActive)
 		{
@@ -993,7 +993,7 @@ $(document).ready(function()
 				    // find the amount of "seconds" between now and target
 				    var current_date = new Date().getTime();
 				    var seconds_left = (target_date - current_date) / 1000;
-				    console.log(seconds_left);
+				    //console.log(seconds_left);
 				 
 				    // do some time calculations
 				    days = parseInt(seconds_left / 86400);
