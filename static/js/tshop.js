@@ -32,8 +32,12 @@ $(".modal").on('click','#btn_register', function(){
     modal_dialog = $(".modal-dialog").html();
     $.ajax(
             {
-            type: "POST",
+            method: "POST",
             url: "/user/register",
+            data: {
+            "email": $("#email").val(),
+            "password": $("#password").val(),
+            },
             success: function(result){
                     $(".modal-body").html(result);
                     $(".btn-secondary").html("OK");

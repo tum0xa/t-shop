@@ -2,13 +2,14 @@
 {% load static %}
 <!-- Modal -->
 <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="Registration" aria-hidden="true">
-  <form class="modal-dialog" role="document">
+  <form class="modal-dialog" method="post">
+    {% csrf_token %}
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">{% trans "Registration" %}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button><form method="post">
+        </button>
       </div>
         <div class="modal-body">
           <div class="input-group input-group-lg">
@@ -27,9 +28,8 @@
         </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Cancel" %}</button>
-        <button type="submit" id="btn_register" class="btn btn-primary" style="background: #0e8ce4; border-color: #0e8ce4">{% trans "Register" %}</button>
+        <button type="button" id="btn_register" class="btn btn-primary" style="background: #0e8ce4; border-color: #0e8ce4">{% trans "Register" %}</button>
       </div>
     </div>
     </form>
-  </div>
 </div>
