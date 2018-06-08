@@ -1,0 +1,5 @@
+<div class="alert alert-{% if error %}danger{% else %}success{% endif %}" role="alert">
+    <i class="fa fa-{% if error %}times{% else %}check-circle-o{% endif %}"></i>
+    {{ alert_message }}
+</div>
+

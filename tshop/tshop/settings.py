@@ -127,15 +127,8 @@ STATIC_ROOT = '/home/stp/www/t-shop/static/'
 STATICFILES_DIRS = [
     "/home/stp/Projects/t-shop/static/",
 ]
-# Email backend
-EMAIL_HOST_USER = 'timofey.samodurov@mail.ru'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 2525
-EMAIL_TIMEOUT = 5
-EMAIL_USE_TLS = True
 
-if DEBUG == True:
+if DEBUG:
     try:
         import tshop.local_settings
     except Exception:

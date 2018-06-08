@@ -1,48 +1,62 @@
 from django.shortcuts import render
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
 from .models import Customer
 
-#TODO Add comments
+
+# TODO: Add comments
 def register(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
+    message = _('Emtpy message!')
+    error = False
     if request.method == 'POST':
         try:
             user = Customer.objects.get(email=email)
         except Exception:
-
             try:
                 user = Customer(username=email, email=email, password=password, is_active=False)
                 user.generate_activation_code()
 
             except Exception:
-                html = '<div class="alert alert-danger" role="alert"><i class="fa fa-check-circle-o"></i>Something wrong! </div>'
+                error = True
+                message = _('Cannot create account! Call to technical support.')
             else:
                 if user:
-                    html_message = '<div style="padding: .75rem 1.25rem; margin-bottom: 1rem; ' \
-                           'border: 1px solid transparent; border-radius: .25rem;' \
-                           'background-color: #dff0d8; border-color: #d0e9c6; color: #3c763d;">' \
-                      '<strong>Well done!</strong> Your activation code: ' \
-                      '<a href="http://localhost:8000/user/activate/?act_code='+user.act_code+'" ' \
-                      'class="alert-link">'+user.act_code+'</a>.</div>'
+                    subject = _('Activation code')
+                    from_email = 'timofey.samodurov@mail.ru'
+                    to = email
+                    html_content = render_to_string('user/mail_activation_code.html', {'shop': 'http://localhost:8000',
+                                                                                       'act_code': user.act_code})
+                    text_content = strip_tags(html_content)
+
                     try:
-                        send_mail(subject="Activation", from_email='timofey.samodurov@mail.ru', recipient_list=(email,),
-                          auth_password="Su0vSvorliaM1609!", message='message', html_message=html_message, auth_user='timofey.samodurov')
+                        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                        msg.attach_alternative(html_content, "text/html")
+                        msg.send()
                     except Exception:
-                        html = '<div class="alert alert-danger" role="alert"><i class="fa fa-check-circle-o"></i>Something wrong! </div>'
+                        message = _('Cannot send activation link. Call to technical support!')
+                        error = True
                     else:
-                        html = '<div class="alert alert-success" role="alert"><i class="fa fa-check-circle-o"></i>The message with ' \
-                       'registration data has been sent to ' + str(email) + '!</div>'
+                        error = False
+                        message = _('Activation link has been sent to ') + str(email) + '!'
                         user.save()
         else:
-            html = '<div class="alert alert-danger" role="alert"><i class="fa fa-check-circle-o"></i>User exist!</div>'
+            error = True
+            message = _('User already exist! Try another email.')
+
     else:
-        html = '<div class="alert alert-danger" role="alert"><i class="fa fa-check-circle-o"></i>Something wrong! </div>'
+        error = True
+        message = _('Something wrong!')
 
-    return HttpResponse(html)
+    return render(request, template_name='user/registration_alert.html',
+                  context={'error': error, 'alert_message': message})
 
 
+# TODO: Redirect to the main page with activation message
 def activate(request):
     code = request.GET.get('act_code')
     print(request.GET)
@@ -57,4 +71,4 @@ def activate(request):
         else:
             user.is_active = True
             user.save()
-            return HttpResponse("Activation is successufully!")
+            return HttpResponse("Activation is successfully!")
